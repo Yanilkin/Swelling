@@ -38,7 +38,7 @@ def f(c_all,t):
 	cm = c_all[0]
 	c = np.reshape(c_all[1:max_c*max_n+1],(max_c,max_n))
 	cV = c_all[max_c*max_n+1:]	
-	k2v = np.sum(k2vp[:,:max_n-1]*c[:,:-1])  # Total sink strength of voids for vacancies
+	k2v = np.sum(k2vp[:,:max_n]*c[:,:])+np.sum(k2vp[0,max_n:max_N-1]*cV[:-1])  # Total sink strength of voids for vacancies
 	k2m = np.sum(k2mp[:-1,:max_n]*c[:-1,:])  # Total sink strength of voids for vacancies
 	k2i = np.sum(k2ip[:,1:max_n]*c[:,1:]) + k2ip_c[0,0]*c[0,0] + k2ip_c[1,0]*c[1,0] + k2ip_c[2,0]*c[2,0] # Total sink strength of voids for vacancies
 	# I. Calculation of SIA concentration from stationary
@@ -151,11 +151,14 @@ if __name__ == "__main__":
 	print "Clusters\n", results[:,1:]
 	print np.shape(clusters)
 
-	print "final distribution\n", np.reshape(clusters[-1],(max_c,max_n))
+	#print "final distribution\n", np.reshape(clusters[-1],(max_c,max_n))
+	print "final distribution\n", np.hstack((clusters[-1,0:max_n],clusters_v[-1]))
 	sizes = mc.sizes
 	#print "final derivitives\n", f(results[-1],0)
 
-	print "total vacancy concentration\n", np.sum(clusters[-1]*np.tile(sizes[:max_n],max_c))
+	print "total vacancy concentration\n", np.sum(np.hstack((clusters[-1,0:max_n],clusters_v[-1]))*sizes)	
+	print "total vacancy concentration\n", np.sum(clusters[-1,0:max_n]*sizes[0:max_n]) + 10*np.sum(clusters_v[-1])
+	#print "total vacancy concentration\n", np.sum(clusters[-1]*np.tile(sizes[:max_n],max_c))
 	#print "total swelling\n," np.sum(results[-1]*sizes/Va)
 
 	print "cluster distribution\n", np.reshape(clusters[-1],(max_c,max_n))[:,0]

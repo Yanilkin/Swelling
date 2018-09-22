@@ -1,7 +1,4 @@
 import numpy as np
-import sys
-sys.path.append('/home/yanilkin/spparks_code_generator/code')
-import defect_properties as defpr
 import parameters as p
 
 #I. Temperature independent coefficients
