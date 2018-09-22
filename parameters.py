@@ -4,7 +4,7 @@ max_dose = 1e2
 T = 700
 
 # size discretization
-max_N = 100
+max_N = 20
 max_n = 10
 max_c = 5
 dn1 = 20

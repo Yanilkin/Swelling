@@ -106,18 +106,27 @@ dG[:,1:] = dG[:,1:]-0.4 # To fix binding energy of divacancy - 0.2 eV
 Eb_v = dG[:,:-1] - dG[:,1:]
 Eb_m = dG[:-1,:] - dG[1:,:]
 #print Eb_v
-
 cveq = np.zeros((max_c,max_n))
 cveq[:,1:] = np.exp(-Eb_v*11600/T)
-#cveq = np.clip(cveq,1e-10,1)
+
+cVeq = np.zeros((max_N-max_n))
+dGV = -sizes[max_n-1:max_N]*Ef+a*(np.power(sizes[max_n-1:max_N],0.6667)-1)+Ef
+Eb_V = dGV[:-1] - dGV[1:]
+cVeq =np.exp(-Eb_V*11600/T)
+cveq = np.clip(cveq,1e-15,1)
+cVeq = np.clip(cVeq,1e-15,1)
 #cveq[0] = np.exp(-Ef*11600/T)
 #cveq[1] = np.exp(-0.2*11600/T) #Binding energy for divacancy
+#Eb_v = dG[:,:-1] - dG[:,1:]
+#print cveq
+#print cVeq
 #cveq = cveq*1e-20
+#cVeq = cVeq*1e-20
 
 # Equlibrium concentration of impurities 
 cmeq = np.zeros((max_c,max_n))
 cmeq[1:,:] = np.exp(-Eb_m*11600/T)
-cmeq = np.clip(cmeq,1e-10,1)
+cmeq = np.clip(cmeq,1e-15,1)
 #Eb = np.array([1.93,2.01,1.67,0.5])
 #cmeq[1] = np.exp(-Eb[0]*11600/T)
 #cmeq[2] = np.exp(-Eb[1]*11600/T)
