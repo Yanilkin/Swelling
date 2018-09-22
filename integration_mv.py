@@ -54,7 +54,7 @@ def f(c_all,t):
 	
 	dc = np.zeros((max_c,max_n))
 	dc[0,0] = 0*G*prbias[0] - ((k2vs+k2vd+k2v+k2vp[0,0]*c[0,0]+k2mp[0,0]*cm)*Dv + k2ip_c[0,0]*Dici + k2mp_c[0,0]*Dmcm)*c[0,0] + k2ip_c[0,1]*Dici*c[0,1] + k2vp_c[0,0]*Dv*cveq[0,1]*c[0,1] + k2mp_c[0,0]*(Dm+Dv)*cmeq[1,0]*c[1,0] + Dv*np.sum(k2vp[:,:max_n-1]*cveq[:,1:]*c[:,1:])
-	dc[0,0] = dc[0,0] + Dv*np.sum(k2vp[0,max_n:max_N-1]*cVeq[1:]*cV[1:])
+	dc[0,0] = dc[0,0] + Dv*np.sum(k2vp[0,max_n-1:max_N-1]*cVeq[0:]*cV[0:])
 #	dc[0][0] = 0
 	# III. Changes in clusters concentration
 	# a. v[j], where nj- cluster number
@@ -126,7 +126,8 @@ def f(c_all,t):
 	dc[2,0] = dc[2,0] - k2ip_c[2,0]*Dici*c[2,0]
 #	print "dc[0,0]=", dc[0,0]
 	dcV = np.zeros((max_N-max_n))
-	dcV[0] = np.sum(k2vp_c[:,max_n-1]*Dvcv*c[:,max_n-1]) - k2vp_c[0,max_n]*Dvcv*cV[0] + k2vp_c[0,max_n]*Dv*cVeq[1]*cV[1] #- k2vp_c[0,max_n-1]*Dv*cVeq[0]*cV[0]
+	dcV[0] = np.sum(k2vp_c[:,max_n-1]*Dvcv*c[:,max_n-1]) - k2vp_c[0,max_n]*Dvcv*cV[0] + k2vp_c[0,max_n]*Dv*cVeq[1]*cV[1] - k2vp_c[0,max_n-1]*Dv*cVeq[0]*cV[0]
+	dc[0,max_n-1] = dc[0,max_n-1] + k2vp_c[0,max_n-1]*Dv*cVeq[0]*cV[0]
 	pl = k2vp_c[0,max_n:max_N-2]*Dvcv*cV[0:max_N-max_n-2] + k2vp_c[0,max_n+1:max_N-1]*Dv*cVeq[2:max_N-max_n]*cV[2:max_N-max_n] #+ k2ip_c[i,2:max_n]*Dici*c[i,2:max_n] 
 	m = k2vp_c[0,max_n+1:max_N-1]*Dvcv*cV[1:max_N-max_n-1] + k2vp_c[0,max_n:max_N-2]*Dv*cVeq[1:max_N-max_n-1]*cV[1:max_N-max_n-1] #+ k2ip_c[i,1:max_n-1]*Dici 
 	dcV[1:max_N-max_n-1] = pl - m

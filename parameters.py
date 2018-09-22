@@ -1,10 +1,10 @@
 #Parameters
 G = 5e-4
 max_dose = 1e2
-T = 700
+T = 1100
 
 # size discretization
-max_N = 20
+max_N = 200
 max_n = 10
 max_c = 5
 dn1 = 20
