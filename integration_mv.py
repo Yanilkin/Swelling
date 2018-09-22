@@ -39,9 +39,9 @@ def f(c_all,t):
 	cm = c_all[0]
 	c = np.reshape(c_all[1:max_c*max_n+1],(max_c,max_n))
 	cV = c_all[max_c*max_n+1:]	
-	k2v = np.sum(k2vp[:,:max_n]*c[:,:])+np.sum(k2vp[0,max_n:max_N-1]*cV[:-1])  # Total sink strength of voids for vacancies
+	k2v = np.sum(k2vp[:,:max_n]*c[:,:]) + np.sum(k2vp[0,max_n:max_N-1]*cV[:-1])  # Total sink strength of voids for vacancies
 	k2m = np.sum(k2mp[:-1,:max_n]*c[:-1,:])  # Total sink strength of voids for vacancies
-	k2i = np.sum(k2ip[:,1:max_n]*c[:,1:]) + k2ip_c[0,0]*c[0,0] + k2ip_c[1,0]*c[1,0] + k2ip_c[2,0]*c[2,0] # Total sink strength of voids for vacancies
+	k2i = np.sum(k2ip[:,1:max_n]*c[:,1:]) + np.sum(k2ip[0,max_n:max_N-1]*cV[:-1]) + k2ip_c[0,0]*c[0,0] + k2ip_c[1,0]*c[1,0] + k2ip_c[2,0]*c[2,0] # Total sink strength of voids for vacancies
 	# I. Calculation of SIA concentration from stationary
 	#Dici = Dicif(k2i)
 	Dici = 0
@@ -127,11 +127,11 @@ def f(c_all,t):
 #	print "dc[0,0]=", dc[0,0]
 	dcV = np.zeros((max_N-max_n))
 	dcV[0] = np.sum(k2vp_c[:,max_n-1]*Dvcv*c[:,max_n-1]) - k2vp_c[0,max_n]*Dvcv*cV[0] + k2vp_c[0,max_n]*Dv*cVeq[1]*cV[1] - k2vp_c[0,max_n-1]*Dv*cVeq[0]*cV[0]
-	dc[0,max_n-1] = dc[0,max_n-1] + k2vp_c[0,max_n-1]*Dv*cVeq[0]*cV[0]
-	pl = k2vp_c[0,max_n:max_N-2]*Dvcv*cV[0:max_N-max_n-2] + k2vp_c[0,max_n+1:max_N-1]*Dv*cVeq[2:max_N-max_n]*cV[2:max_N-max_n] #+ k2ip_c[i,2:max_n]*Dici*c[i,2:max_n] 
-	m = k2vp_c[0,max_n+1:max_N-1]*Dvcv*cV[1:max_N-max_n-1] + k2vp_c[0,max_n:max_N-2]*Dv*cVeq[1:max_N-max_n-1]*cV[1:max_N-max_n-1] #+ k2ip_c[i,1:max_n-1]*Dici 
+	dc[0,max_n-1] = dc[0,max_n-1] + k2vp_c[0,max_n-1]*Dv*cVeq[0]*cV[0] # Changes in the matrix
+	pl = k2vp_c[0,max_n:max_N-2]*Dvcv*cV[0:max_N-max_n-2] + k2ip_c[0,2:max_N-max_n]*Dici*cV[2:max_N-max_n] + k2vp_c[0,max_n+1:max_N-1]*Dv*cVeq[2:max_N-max_n]*cV[2:max_N-max_n] # 
+	m = (k2vp_c[0,max_n+1:max_N-1]*Dvcv + k2ip_c[0,max_n+1:max_N-1]*Dici + k2vp_c[0,max_n:max_N-2]*Dv*cVeq[1:max_N-max_n-1])*cV[1:max_N-max_n-1] #
 	dcV[1:max_N-max_n-1] = pl - m
-	dcV[-1] = k2vp_c[0,max_N-2]*Dvcv*cV[max_N-max_n-2] - k2vp_c[0,max_N-2]*Dv*cVeq[max_N-max_n-1]*cV[max_N-max_n-1] 
+	dcV[-1] = k2vp_c[0,max_N-2]*Dvcv*cV[max_N-max_n-2] - (k2ip_c[0,max_N-1]*Dici + k2vp_c[0,max_N-2]*Dv*cVeq[max_N-max_n-1])*cV[max_N-max_n-1] 
 
 	dc = np.reshape(dc,max_c*max_n)
 	dc = np.hstack((dcm,dc,dcV))

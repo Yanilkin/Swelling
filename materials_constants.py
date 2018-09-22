@@ -31,8 +31,8 @@ sizes = np.arange(1,dn1)
 for i in range(dn1,max_N+1):
 	sizes=np.hstack((sizes,(2-base)*i+(base-1)*dn1-1+np.power(base,i-dn1)))
 dsizes = sizes[1:]-sizes[:-1]
-print sizes
-print dsizes
+#print sizes
+#print dsizes
 
 radius = np.power(sizes*3*Va/4/pi,1.0/3.0) + a/2*(3.0)**(0.5)/2 # Cluster radius
 
