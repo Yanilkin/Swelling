@@ -130,7 +130,7 @@ def f(c_all,t):
 	pl = k2vp_c[0,max_n:max_N-2]*Dvcv*cV[0:max_N-max_n-2] + k2vp_c[0,max_n+1:max_N-1]*Dv*cVeq[2:max_N-max_n]*cV[2:max_N-max_n] #+ k2ip_c[i,2:max_n]*Dici*c[i,2:max_n] 
 	m = k2vp_c[0,max_n+1:max_N-1]*Dvcv*cV[1:max_N-max_n-1] + k2vp_c[0,max_n:max_N-2]*Dv*cVeq[1:max_N-max_n-1]*cV[1:max_N-max_n-1] #+ k2ip_c[i,1:max_n-1]*Dici 
 	dcV[1:max_N-max_n-1] = pl - m
-	dcV[-1] = k2vp_c[0,max_N-2]*Dvcv*cV[max_N-max_n-2] - k2vp_c[0,max_N-1]*Dv*cVeq[max_N-max_n-1]*cV[max_N-max_n-1] 
+	dcV[-1] = k2vp_c[0,max_N-2]*Dvcv*cV[max_N-max_n-2] - k2vp_c[0,max_N-2]*Dv*cVeq[max_N-max_n-1]*cV[max_N-max_n-1] 
 
 	dc = np.reshape(dc,max_c*max_n)
 	dc = np.hstack((dcm,dc,dcV))
