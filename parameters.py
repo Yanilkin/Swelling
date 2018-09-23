@@ -1,17 +1,17 @@
 #Parameters
 G = 5e-4
 max_dose = 1e2
-T = 1100
+T = 600
 
 # size discretization
-max_N = 20
+max_N = 12
 max_n = 10
 max_c = 5
-dn1 = 20
+dn1 = 12
 base = 1.05
 
 # integration and output
-integ_steps = 10
+integ_steps = 1000
 discretization = integ_steps/10
 
 # initial distribution
@@ -19,8 +19,8 @@ import materials_constants as mc
 import numpy as np
 co = np.zeros((max_c,max_n))
 coV = np.zeros((max_N-max_n))
-#co[0,0] = np.sqrt(G/mc.k2iv/mc.Di)
-co[0,0] = 1e-2
+co[0,0] = np.sqrt(G/mc.k2iv/mc.Di)
+#co[0,0] = 1e-2
 #co[0,0] = np.exp(-3.11*11600/T)
 #co[2,0] = 1e-4
 #co[2,0] = 1e0

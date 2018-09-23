@@ -120,8 +120,8 @@ cVeq = np.clip(cVeq,1e-10,1)
 #Eb_v = dG[:,:-1] - dG[:,1:]
 #print cveq
 #print cVeq
-#cveq = cveq*1e-20
-#cVeq = cVeq*1e-20
+cveq = cveq*1e-20
+cVeq = cVeq*1e-20
 
 # Equlibrium concentration of impurities 
 cmeq = np.zeros((max_c,max_n))
