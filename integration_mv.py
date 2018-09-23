@@ -138,8 +138,11 @@ def f(c_all,t):
 	dcV[-1] = k2vp_c[0,max_N-2]*Dvcv*cV[max_N-max_n-2] - (k2ip_c[0,max_N-1]*Dici + k2vp_c[0,max_N-2]*Dv*cVeq[max_N-max_n-1])*cV[max_N-max_n-1] 
 
 	dcVm = np.zeros((max_N-max_n))	
-	dcVm[0] = np.sum(k2vp_c[:,max_n-1]*Dvcv*c[:,max_n-1]*sizes_m)
-	dcVm[1:max_N-max_n] = 
+	dcVm[0] = np.sum(k2vp_c[:,max_n-1]*Dvcv*c[:,max_n-1]*sizes_m) - k2vp_c[0,max_n]*Dvcv*cVm[0] + (k2ip_c[0,max_n+1]*Dici + k2vp_c[0,max_n]*Dv*cVeq[1])*cVm[1] - k2vp_c[0,max_n-1]*Dv*cVeq[0]*cVm[0] - k2ip_c[0,max_n]*Dici*cVm[0]
+	pl = k2vp_c[0,max_n:max_N-2]*Dvcv*cVm[0:max_N-max_n-2] + (k2ip_c[0,max_n:max_N-2]*Dici + k2vp_c[0,max_n+1:max_N-1]*Dv*cVeq[1:max_N-max_n-1])*cVm[1:max_N-max_n-1] 
+	m =  k2vp_c[0,max_n+1:max_N-1]*Dvcv*cVm[1:max_N-max_n-1] + (k2ip_c[0,max_n+1:max_N-1]*Dici + k2vp_c[0,max_n+2:max_N]*Dv*cVeq[2:max_N-max_n])*cVm[2:max_N-max_n]
+	dcVm[1:max_N-max_n-1] = pl - m
+	dcVm[-1] = 
 
 	dc = np.reshape(dc,max_c*max_n)
 	dc = np.hstack((dcm,dc,dcV,dcVm))
