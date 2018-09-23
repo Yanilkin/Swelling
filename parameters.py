@@ -5,7 +5,7 @@ T = 600
 
 # size discretization
 max_N = 12
-max_n = 10
+max_n = 3
 max_c = 5
 dn1 = 12
 base = 1.05
@@ -19,16 +19,17 @@ import materials_constants as mc
 import numpy as np
 co = np.zeros((max_c,max_n))
 coV = np.zeros((max_N-max_n))
-co[0,0] = np.sqrt(G/mc.k2iv/mc.Di)
-#co[0,0] = 1e-2
+coVm = np.zeros((max_N-max_n))
+#co[0,0] = np.sqrt(G/mc.k2iv/mc.Di)
+co[0,0] = 1e-2
 #co[0,0] = np.exp(-3.11*11600/T)
 #co[2,0] = 1e-4
 #co[2,0] = 1e0
 #co[3,0] = 1e0
 #co[4,0] = 1e0
 co = np.reshape(co,max_c*max_n)
-cm = 0
-co = np.hstack((cm,co,coV))
+cm = 1e-4
+co = np.hstack((cm,co,coV,coVm))
 ##co[133] = 1e-4
 
 #k2i = mc.k2is + mc.k2id + np.sum(mc.k2ip[1:-1]*co[1:-1])

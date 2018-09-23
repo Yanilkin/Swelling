@@ -31,6 +31,8 @@ sizes = np.arange(1,dn1)
 for i in range(dn1,max_N+1):
 	sizes=np.hstack((sizes,(2-base)*i+(base-1)*dn1-1+np.power(base,i-dn1)))
 dsizes = sizes[1:]-sizes[:-1]
+
+sizes_m = np.arange(0,max_c)
 #print sizes
 #print dsizes
 
